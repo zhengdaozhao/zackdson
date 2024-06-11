@@ -8,56 +8,43 @@ const items = [
     {
       key: '1',
       icon: <MailOutlined />,
-      label: 'Helloworld',
+      label: '生物',
     },
     {
       key: '2',
       icon: <AppstoreOutlined />,
-      label: 'Dashboard',
+      label: '语文',
       children: [
         {
           key: '21',
-          label: 'Option 1',
+          label: '课本',
         },
         {
           key: '22',
-          label: 'Option 2',
+          label: '课外课',
         },
         {
           key: '23',
-          label: 'Submenu',
-          children: [
-            {
-              key: '231',
-              label: 'Option 1',
-            },
-            {
-              key: '232',
-              label: 'Option 2',
-            },
-            {
-              key: '233',
-              label: 'Option 3',
-            },
-          ],
+          label: '作文'
+        },
+      ],
+    },
+    {
+      key: '3',
+      icon: <AppstoreOutlined />,
+      label: '英语',
+      children: [
+        {
+          key: '31',
+          label: '课本',
         },
         {
-          key: '24',
-          label: 'Submenu 2',
-          children: [
-            {
-              key: '241',
-              label: 'Option 1',
-            },
-            {
-              key: '242',
-              label: 'Option 2',
-            },
-            {
-              key: '243',
-              label: 'Option 3',
-            },
-          ],
+          key: '32',
+          label: '课外课',
+        },
+        {
+          key: '33',
+          label: '作文'
         },
       ],
     },
