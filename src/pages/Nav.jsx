@@ -6,44 +6,44 @@ import {AppstoreOutlined, MailOutlined  } from '@ant-design/icons';
 // const SubMenu = Menu.SubMenu;
 const items = [
     {
-      key: '1',
+      key: 'bio',
       icon: <MailOutlined />,
       label: '生物',
     },
     {
-      key: '2',
+      key: 'ch',
       icon: <AppstoreOutlined />,
       label: '语文',
       children: [
         {
-          key: '21',
+          key: 'ch_nb',
           label: '课本',
         },
         {
-          key: '22',
+          key: 'ch_ext',
           label: '课外课',
         },
         {
-          key: '23',
+          key: 'ch_wri',
           label: '作文'
         },
       ],
     },
     {
-      key: '3',
+      key: 'en',
       icon: <AppstoreOutlined />,
       label: '英语',
       children: [
         {
-          key: '31',
+          key: 'en_nb',
           label: '课本',
         },
         {
-          key: '32',
+          key: 'en_ext',
           label: '课外课',
         },
         {
-          key: '33',
+          key: 'en_wri',
           label: '作文'
         },
       ],
@@ -69,8 +69,8 @@ const levelKeys = getLevelKeys(items);
 
 const Nav = () => {
     const [stateOpenKeys, setStateOpenKeys] = useState(['2', '23']);
-    const handleGuoailiBeigan =({item, key, keyPath, domEvent }) => {
-        console.log('item=',item);
+    const handleGuoailiBeigan =({key, keyPath, domEvent }) => {
+        // console.log('item=',item);
         console.log('key=',key);
         console.log('keypath=',keyPath);
         console.log('domevent=',domEvent);
