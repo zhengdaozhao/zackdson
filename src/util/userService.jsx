@@ -8,11 +8,11 @@ const getAllSubjects = () => {
 };
 
 const getOneSubject = (subname) => {
-    return axios.get(API_SUB_URL + "one"+`?subname=${subname}`);
+    return axios.post(API_SUB_URL + "one"+`?subname=${subname}`);
 };
 
 const getAllBranchs = () => {
-  return axios.post(API_BRA_URL + "all");
+  return axios.get(API_BRA_URL + "all");
 };
 
 
