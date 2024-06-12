@@ -5,7 +5,9 @@ import {
 } from 'react-router-dom';
 import HomePage from './pages/Home';
 import Nav from './pages/Nav';
-import RootLayout from "./pages/Root";
+import SubjectLayout from "./pages/Subject";
+import EmptyLayout from "./pages/EmptyPage";
+import SubjectManagement,{loader as subjectLoader} from "./pages/SubjectManagement";
 // import Review,{ loader as reviewLoader, action as reviewAction, } from "./lmj_admin/Review";
 // import Contact,{ loader as contactLoader} from "./lmj_admin/Contact";
 // import EditContact,{action as editAction} from "./lmj_admin/edit";
@@ -13,13 +15,21 @@ import RootLayout from "./pages/Root";
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <RootLayout />,
-    // errorElement: <ErrorPage />,
-    id: 'root',
-    children: [
-      // { path: '/', element: <HomePage /> },
-      { index: true, element: <HomePage /> },
-      { path: '/nav', element: <Nav /> },
+      element: <HomePage />,
+      // errorElement: <ErrorPage />,
+      id: 'home',
+    },
+    {
+      path: '/导航',
+      element: <Nav />,
+      id: 'navigation',
+      children: [
+      { path: '/导航/分学科', element: <SubjectLayout /> },
+      { path: '/导航/空', element: <EmptyLayout /> },
+      { path: '/导航/学科管理', 
+        element: <SubjectManagement />,
+        loader: subjectLoader,
+      },
       // { path: '/review', 
       //     element: <Review />,
       //     loader:reviewLoader,
