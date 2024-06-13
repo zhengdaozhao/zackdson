@@ -3,114 +3,147 @@ import { Layout, Menu,Button } from 'antd';
 const { Header, Content, Sider,Footer } = Layout;
 import {AppstoreOutlined, MailOutlined  } from '@ant-design/icons';
 import { Outlet } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate,useLoaderData } from 'react-router-dom';
+import UserService from '../util/userService';
+import { notification } from "antd";
+const openNotificationWithIcon = (type, message, description) => notification[type]({message, description});
 
-const items = [
-    {
-      key: 'ma',
-      icon: <MailOutlined />,
-      label: '数学',
-      children: [
-        {
-          key: 'ma_nb',
-          label: '课本',
-        },
-        {
-          key: 'ma_ext',
-          label: '课外课',
-        },
-        {
-          key: 'ma_rev',
-          label: '复习'
-        },
-      ],      
-    },
-    {
-      key: 'ch',
-      icon: <AppstoreOutlined />,
-      label: '语文',
-      children: [
-        {
-          key: 'ch_nb',
-          label: '课本',
-        },
-        {
-          key: 'ch_ext',
-          label: '课外课',
-        },
-        {
-          key: 'ch_wri',
-          label: '作文'
-        },
-        {
-          key: 'ch_wro',
-          label: '错题入库'
-        },
-        {
-          key: 'ch_rev',
-          label: '复习'
-        },
-      ],
-    },
-    {
-      key: 'en',
-      icon: <AppstoreOutlined />,
-      label: '英语',
-      children: [
-        {
-          key: 'en_nb',
-          label: '课本',
-        },
-        {
-          key: 'en_ext',
-          label: '课外课',
-        },
-        {
-          key: 'en_wri',
-          label: '作文'
-        },
-        {
-          key: 'en_rev',
-          label: '复习'
-        },
-      ],
-    },
-];
-const getLevelKeys = (items1) => {
+export async function loader(){
+    try {
+        const restData = await UserService.getAllSubjects();
+        const subjects = await restData.data;
+        console.log('subjects=',subjects);
+        let guoaili=subjects.filter(xg=>xg.allsub !== null);
+        console.log('guoaili length:',guoaili.length);
 
-  const key = {};
-    const func = (items2, level = 1) => {
-      items2.forEach((item) => {
-        if (item.key) {
-          key[item.key] = level;
-        }
-        if (item.children) {
-          func(item.children, level + 1);
-        }
-      });
-    };
-    func(items1);
-    return key;
-};
+        let items=[];
+        items=guoaili.map((xxg)=>{
+            return {
+                key: xxg.name,
+                icon: <AppstoreOutlined />,
+                label: xxg.chname,
+                children:JSON.parse(xxg.allsub),           
+            }
+        });
+        console.log("items=",items);
+        return items;
+
+    }catch(ex){
+        openNotificationWithIcon("error","主科目取得异常,请联系管理员",ex);
+        return null;
+    }
+}
+
+// const items = [
+//     {
+//       key: 'ma',
+//       icon: <MailOutlined />,
+//       label: '数学',
+//       children: [
+//         {
+//           key: 'ma_nb',
+//           label: '课本',
+//         },
+//         {
+//           key: 'ma_ext',
+//           label: '课外课',
+//         },
+//         {
+//           key: 'ma_rev',
+//           label: '复习'
+//         },
+//       ],      
+//     },
+//     {
+//       key: 'ch',
+//       icon: <AppstoreOutlined />,
+//       label: '语文',
+//       children: [
+//         {
+//           key: 'ch_nb',
+//           label: '课本',
+//         },
+//         {
+//           key: 'ch_ext',
+//           label: '课外课',
+//         },
+//         {
+//           key: 'ch_wri',
+//           label: '作文'
+//         },
+//         {
+//           key: 'ch_wro',
+//           label: '错题入库'
+//         },
+//         {
+//           key: 'ch_rev',
+//           label: '复习'
+//         },
+//       ],
+//     },
+//     {
+//       key: 'en',
+//       icon: <AppstoreOutlined />,
+//       label: '英语',
+//       children: [
+//         {
+//           key: 'en_nb',
+//           label: '课本',
+//         },
+//         {
+//           key: 'en_ext',
+//           label: '课外课',
+//         },
+//         {
+//           key: 'en_wri',
+//           label: '作文'
+//         },
+//         {
+//           key: 'en_rev',
+//           label: '复习'
+//         },
+//       ],
+//     },
+// ];
+
+export default function Nav () {
+    const items=useLoaderData();
+
+    const getLevelKeys = (items1) => {
+        const key = {};
+        const func = (items2, level = 1) => {
+        items2.forEach((item) => {
+          if (item.key) {
+            key[item.key] = level;
+          }
+          if (item.children) {
+            func(item.children, level + 1);
+          }
+        });
+      };
+      func(items1);
+      return key;
+  };    
+    // console.log('items main=',items);
+    const levelKeys = getLevelKeys(items);
+    const navigate = useNavigate();
+    const [stateOpenKeys, setStateOpenKeys] = useState([]);
+    const [beforeSubject, setBeforeSubject] = useState(true);
+
+
+    
   
-const levelKeys = getLevelKeys(items);
-
-const Nav = () => {
-  const navigate = useNavigate();
-  const [stateOpenKeys, setStateOpenKeys] = useState(['2', '23']);
-  const [beforeSubject, setBeforeSubject] = useState(true);
-
   const handleGuoailiBeigan =({key }) => {
-      const zpd=key.split('_');
-      localStorage.setItem("subkey1",zpd[0]);
-      localStorage.setItem("subkey2",zpd[1]);
+    //   const zpd=key.split('_');
+    //   localStorage.setItem("subkey1",zpd[0]);
+    //   localStorage.setItem("subkey2",zpd[1]);
       setBeforeSubject(false);
-      navigate('/导航/空');
+      navigate('/nav/empty');
   };
 
   const handelSubjectManamementButton = () => {
     setBeforeSubject(false);
-    navigate('/导航/学科管理');
+    navigate('/nav/manage');
   }
   const onOpenChange = (openKeys) => {
   const currentOpenKey = openKeys.find((key) => stateOpenKeys.indexOf(key) === -1);
@@ -141,7 +174,7 @@ const Nav = () => {
              >学科管理</Button>
           <Menu theme='dark'
             mode="inline"
-            defaultSelectedKeys={['231']}
+            // defaultSelectedKeys={['231']}
             openKeys={stateOpenKeys}
             onOpenChange={onOpenChange}
             onClick={handleGuoailiBeigan}
@@ -177,4 +210,4 @@ const Nav = () => {
       </Layout>
   )
 };
-export default Nav;
+// export default Nav;

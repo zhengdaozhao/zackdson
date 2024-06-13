@@ -1,5 +1,4 @@
 import { PlusOutlined } from '@ant-design/icons';
-import { useState } from 'react';
 import {
   Button,
   Cascader,
@@ -27,57 +26,60 @@ const normFile = (e) => {
   }
   return e?.fileList;
 };
-const sub1 =[
-    {
-        type:'ch',
-        desc:'语文'
-    },
-    {
-        type:'en',
-        desc:'英语'
-    },
-    {
-        type:'ma',
-        desc:'数学'
-    },
-    {
-        type:'ph',
-        desc:'物理'
-    },
-    {
-        type:'ch',
-        desc:'化学'
-    },
-]
-const sub2 =[
-    {
-        type:'nb',
-        desc:'课本知识记录'
-    },
-    {
-        type:'ext',
-        desc:'课外知识点记录'
-    },
-    {
-        type:'wri',
-        desc:'作文点滴'
-    },
-    {
-        type:'wro',
-        desc:'错题入库'
-    },
-    {
-        type:'rev',
-        desc:'知识回顾'
-    },
-]
-const SubjectLayout=() =>{
-    const subkey1 = localStorage.getItem('subkey1');
-    const subkey2 = localStorage.getItem('subkey2');
+// const sub1 =[
+//     {
+//         type:'zh',
+//         desc:'语文'
+//     },
+//     {
+//         type:'en',
+//         desc:'英语'
+//     },
+//     {
+//         type:'ma',
+//         desc:'数学'
+//     },
+//     {
+//         type:'ph',
+//         desc:'物理'
+//     },
+//     {
+//         type:'ch',
+//         desc:'化学'
+//     },
+// ]
+// const sub2 =[
+//     {
+//         type:'nb',
+//         desc:'课本知识记录'
+//     },
+//     {
+//         type:'ext',
+//         desc:'课外知识点记录'
+//     },
+//     {
+//         type:'wri',
+//         desc:'作文点滴'
+//     },
+//     {
+//         type:'wro',
+//         desc:'错题入库'
+//     },
+//     {
+//         type:'rev',
+//         desc:'知识回顾'
+//     },
+// ]
+
+
+export default function SubjectLayout() {
+    // const subkey1 = localStorage.getItem('subkey1');
+    // const subkey2 = localStorage.getItem('subkey2');
     return (
         <div>
             <h1>
-               {`${sub1.filter((item)=>item.type===subkey1)[0].desc} ${sub2.filter((item)=>item.type===subkey2)[0].desc}`} 
+               {/* {`${sub1.filter((item)=>item.type===subkey1)[0].desc} ${sub2.filter((item)=>item.type===subkey2)[0].desc}`}  */}
+               百尺竿头 更进一步 
             </h1>
             <Form
                 labelCol={{
@@ -191,4 +193,4 @@ const SubjectLayout=() =>{
     );
 }
 
-export default SubjectLayout;
+// export default SubjectLayout;

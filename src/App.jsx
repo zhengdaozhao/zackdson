@@ -1,16 +1,15 @@
+
 import React from "react";
 import {
   createBrowserRouter,
   RouterProvider
 } from 'react-router-dom';
 import HomePage from './pages/Home';
-import Nav from './pages/Nav';
+import Nav,{loader as NavLoader} from './pages/Nav';
 import SubjectLayout from "./pages/Subject";
 import EmptyLayout from "./pages/EmptyPage";
-import SubjectManagement,{loader as subjectLoader} from "./pages/SubjectManagement";
-// import Review,{ loader as reviewLoader, action as reviewAction, } from "./lmj_admin/Review";
-// import Contact,{ loader as contactLoader} from "./lmj_admin/Contact";
-// import EditContact,{action as editAction} from "./lmj_admin/edit";
+// import SubjectManagement,{loader as subjectLoader} from "./pages/SubjectManagement";
+import SubjectManagement,{loader as subjectLoader, action as subjectAction} from "./pages/SubjectManagement";
 
 const router = createBrowserRouter([
   {
@@ -20,15 +19,17 @@ const router = createBrowserRouter([
       id: 'home',
     },
     {
-      path: '/导航',
+      path: '/nav',
       element: <Nav />,
       id: 'navigation',
+      loader: NavLoader,
       children: [
-      { path: '/导航/分学科', element: <SubjectLayout /> },
-      { path: '/导航/空', element: <EmptyLayout /> },
-      { path: '/导航/学科管理', 
+      { path: '/nav/branch', element: <SubjectLayout /> },
+      { path: '/nav/empty', element: <EmptyLayout /> },
+      { path: '/nav/manage', 
         element: <SubjectManagement />,
         loader: subjectLoader,
+        action: subjectAction
       },
       // { path: '/review', 
       //     element: <Review />,
