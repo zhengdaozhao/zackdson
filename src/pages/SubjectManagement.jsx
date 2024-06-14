@@ -1,3 +1,4 @@
+
 import UserService from "../util/userService";
 import { useLoaderData,Form,redirect} from "react-router-dom";
 import { useState } from "react";
@@ -71,13 +72,13 @@ export default function SubjectManagement() {
                         })
                         setXiaoguo(arrLmj);
                         setBranches(abc);
-                        setIsSubChecked(true);
-                        setUl1enable(true);
                     }else{
                         console.log('after filter:',zhongguo);
                         setXiaoguo(zhongguo);
                     }
-                }
+                setIsSubChecked(true);
+                setUl1enable(true);
+            }
                 catch (ex) {
                     alert("子分类查询异常!",ex);
                 }

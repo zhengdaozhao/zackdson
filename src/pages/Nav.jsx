@@ -34,78 +34,6 @@ export async function loader(){
     }
 }
 
-// const items = [
-//     {
-//       key: 'ma',
-//       icon: <MailOutlined />,
-//       label: '数学',
-//       children: [
-//         {
-//           key: 'ma_nb',
-//           label: '课本',
-//         },
-//         {
-//           key: 'ma_ext',
-//           label: '课外课',
-//         },
-//         {
-//           key: 'ma_rev',
-//           label: '复习'
-//         },
-//       ],      
-//     },
-//     {
-//       key: 'ch',
-//       icon: <AppstoreOutlined />,
-//       label: '语文',
-//       children: [
-//         {
-//           key: 'ch_nb',
-//           label: '课本',
-//         },
-//         {
-//           key: 'ch_ext',
-//           label: '课外课',
-//         },
-//         {
-//           key: 'ch_wri',
-//           label: '作文'
-//         },
-//         {
-//           key: 'ch_wro',
-//           label: '错题入库'
-//         },
-//         {
-//           key: 'ch_rev',
-//           label: '复习'
-//         },
-//       ],
-//     },
-//     {
-//       key: 'en',
-//       icon: <AppstoreOutlined />,
-//       label: '英语',
-//       children: [
-//         {
-//           key: 'en_nb',
-//           label: '课本',
-//         },
-//         {
-//           key: 'en_ext',
-//           label: '课外课',
-//         },
-//         {
-//           key: 'en_wri',
-//           label: '作文'
-//         },
-//         {
-//           key: 'en_rev',
-//           label: '复习'
-//         },
-//       ],
-//     },
-// ];
-
 export default function Nav () {
     const items=useLoaderData();
 
@@ -129,16 +57,15 @@ export default function Nav () {
     const navigate = useNavigate();
     const [stateOpenKeys, setStateOpenKeys] = useState([]);
     const [beforeSubject, setBeforeSubject] = useState(true);
-
-
-    
+   
   
   const handleGuoailiBeigan =({key }) => {
     //   const zpd=key.split('_');
     //   localStorage.setItem("subkey1",zpd[0]);
     //   localStorage.setItem("subkey2",zpd[1]);
       setBeforeSubject(false);
-      navigate('/nav/empty');
+      navigate('/nav/demo');
+      // navigate('/nav/branch1');
   };
 
   const handelSubjectManamementButton = () => {
