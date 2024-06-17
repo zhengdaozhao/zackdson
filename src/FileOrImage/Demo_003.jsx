@@ -1,8 +1,13 @@
 import { Form, Button, Upload ,Input,notification,Image} from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
-import UserService from '../util/userService';
+import FileService from '../util/fileService';
+import { useState,useRef} from 'react';
 import CustomWebcam from '../util/CustomWebcam';
-import { useState,useRef } from 'react';
+import base64ToFile from '../util/ImageTransformService';
+// add date processing api from external package
+// npm i moment
+// 2024/6/17
+import moment from 'moment';
 
 const openNotificationWithIcon = (type, message, description) => notification[type]({message, description});
 
@@ -17,33 +22,9 @@ const normFile = (e) => {
 };
 
 
-const DemoLayout = (props,ref) => {
-    const webFeed=useRef(null);
+const DemoLayout003 = (props,ref) => {
     const [img,setImg]=useState([]);
-
-    // 20240615
-    // let photo=null;
-    // const callbackOfMain=(abc)=>{
-    //     photo=abc;
-    //     console.log("photo=",photo);
-    // }
-
-    const handleImgSendClick = () =>{
-        // const formData = new FormData();
-        // formData.append('image',photo);
-        async function sendfile(data){
-            try {
-              const resData=await UserService.saveNotebookWebcamToDatabase(data);
-              openNotificationWithIcon("success","上传webcam成功",resData);
-    
-            }catch(ex){
-              openNotificationWithIcon("error","上传webcam失败",ex);
-            }
-          }
-        // console.log('feed=',webFeed.current.mjddyz);
-        sendfile(webFeed.current.mjddyz);
-    }
-
+    const zpddyz=useRef(null);
 
     const onFinish = (values) => {
       console.log('Received values of form: ', values);
@@ -59,16 +40,16 @@ const DemoLayout = (props,ref) => {
       upload.forEach((item, index) => {
         formData.append('file', item.originFileObj);    	
         })
-        // // 20240615 add for adding webcam screenshot
-        // if(photo) formData.append('file',photo);
 
       async function sendfile(data){
         try {
-          const resData=await UserService.saveNotebookToDatabaseWithPhoto(data);
-          openNotificationWithIcon("success","上传资料成功",resData.data);
+          const resData=await FileService.uploadFile(data);
+          openNotificationWithIcon("success","上传资料成功".resData);
 
-        }catch(ex){
-          openNotificationWithIcon("error","上传图片资料失败",ex);
+        }catch(err){
+          // alert(err.response.data.message);
+          // console.log('error=',err);
+          openNotificationWithIcon("error","上传图片资料失败",err.response.data.message);
         }
       }
       sendfile(formData);
@@ -84,27 +65,38 @@ const DemoLayout = (props,ref) => {
     const handleImgGetClick = () => {
       async function getImgfile() {
         try {
-          const resData=await UserService.getNotebookImageFromDatabase();
+          const resData=await FileService.getAllFiles();
         //   console.log('resData:',resData);
         //   console.log('photo before tranform:',resData.data[0].image);
           setImg(resData.data);
-          openNotificationWithIcon("success","获取图片成功");
+          openNotificationWithIcon("success","获取文件成功");
 
           }catch(ex){
-          openNotificationWithIcon("error","获取图片资料失败",ex);
+          openNotificationWithIcon("error","获取文件失败",ex);
           }
         }
       getImgfile();
     
     }
- // 二进制流图片转化为base64位图片展示
-//  const getBase64Img = (res) => {
-//   const bufferUrl = btoa(
-//       new Uint8Array(res).reduce((data, byte) => data + String.fromCharCode(byte), ''),
-//   );
-//   const base64Url = `data:image/png;base64,${bufferUrl}`;
-//   return base64Url;
-// };
+// 2024/6/17 add
+    const handleSendImageClick = () => {
+      async function sendImage() {
+        try {
+          const today=moment(new Date()).format("YYYY-MM-DD-hh-mm-ss");
+          const zpd_andom=today + '-' + Math.random().toString(18).substring(2);
+          const formData = new FormData();
+          // formData.append('file',new Blob([zpddyz.current.mjddyz], { type: 'image/jpeg' }));
+          formData.append('file',base64ToFile(zpddyz.current.mjddyz),zpd_andom);
+          const resData=await FileService.uploadFile(formData);
+          openNotificationWithIcon("success","上传文件成功");
+
+          }catch(ex){
+          openNotificationWithIcon("error","获取文件失败",ex.response.data.message);
+          }
+        }
+        sendImage();
+    
+    }
 
 
     return (
@@ -145,7 +137,7 @@ const DemoLayout = (props,ref) => {
       <ul>
         {img.length ? 
         img.map(smap=>(
-            <Image width={720} src={smap.image} />
+            <Image width={720} src={smap.url} />
                 // <li >{smap.id}</li>
         )) 
                 :
@@ -154,15 +146,15 @@ const DemoLayout = (props,ref) => {
       </ul>
       <hr />
       <Button type='primary' danger onClick={handleImgGetClick} >后端求取图片</Button>
-      
+
       <hr />
-      <h3>自己拍照</h3>
-      {/* <CustomWebcam lmj={callbackOfMain}/> */}
-      <CustomWebcam ref={webFeed} />
-      <Button type='primary' danger onClick={handleImgSendClick} >发送图片</Button>
+      <hr />
+      <CustomWebcam ref={zpddyz} />
+      <Button type='primary' danger onClick={handleSendImageClick} >图片上传保存</Button>
+      
       </>
 
     );
 }
 
-export default DemoLayout;
+export default DemoLayout003;

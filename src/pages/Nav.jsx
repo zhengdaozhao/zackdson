@@ -29,13 +29,20 @@ export async function loader(){
         return items;
 
     }catch(ex){
-        openNotificationWithIcon("error","主科目取得异常,请联系管理员",ex);
+        // alert("主科目取得异常,请检查后端是否开启");
+        // openNotificationWithIcon("error","主科目取得异常,请联系管理员",ex);
         return null;
     }
 }
 
+
 export default function Nav () {
     const items=useLoaderData();
+    if(!items){
+        // alert("main主科目取得异常,请检查后端是否开启");
+        // openNotificationWithIcon("error","主科目取得异常,请联系管理员",ex);
+      return null;
+    }
 
     const getLevelKeys = (items1) => {
         const key = {};
@@ -57,15 +64,46 @@ export default function Nav () {
     const navigate = useNavigate();
     const [stateOpenKeys, setStateOpenKeys] = useState([]);
     const [beforeSubject, setBeforeSubject] = useState(true);
-   
-  
+
   const handleGuoailiBeigan =({key }) => {
-    //   const zpd=key.split('_');
-    //   localStorage.setItem("subkey1",zpd[0]);
+
+    // 20240614 add here temporary
+    navigate('/nav/demo3');
+    // navigate('/nav/demo2');
+    // navigate('/nav/demo');
+    return null;
+
+    let 江珊=String(key).slice(2);
+    console.log('江珊=',江珊);
+
+      // const zpd=key.split('_');
+      localStorage.setItem("branchDetail",key);
     //   localStorage.setItem("subkey2",zpd[1]);
       setBeforeSubject(false);
-      navigate('/nav/demo');
-      // navigate('/nav/branch1');
+      switch (江珊) {
+        // 1 notebook 2 outer school extension 3 writing 4 get wrong questions 5 overall review 6 test problems
+        case '课本':
+          navigate('/nav/branch1');
+          break;
+        case '课外扩展':
+          navigate('/nav/branch2');
+          break;
+        case '写作':
+          navigate('/nav/branch3');
+          break;
+        case '错题积累':
+          navigate('/nav/branch4');
+          break;
+        case '复习':
+          navigate('/nav/branch5');
+          break;
+        case '试卷汇总':
+          navigate('/nav/branch6');
+          break;
+        default:
+          navigate('/nav/branch');
+      }
+        // navigate('/nav/empty');
   };
 
   const handelSubjectManamementButton = () => {
@@ -104,7 +142,7 @@ export default function Nav () {
             // defaultSelectedKeys={['231']}
             openKeys={stateOpenKeys}
             onOpenChange={onOpenChange}
-            onClick={handleGuoailiBeigan}
+            onClick={handleGuoailiBeigan}  //important, the main work flows are here!
             style={{
                 width: 256,
                 }}
@@ -123,8 +161,12 @@ export default function Nav () {
             我曾经看过山和大海，也穿过人山人海
           </Header>
           <Content style={{ margin: '24px 16px 0' }}>
-            <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
-              {beforeSubject && <div>日夜脑未停留,心力用尽学丘</div>}
+            <div style={{ padding: 12, background: '#fff', minHeight: 360 }}>
+              {beforeSubject && <div>
+                  <h1>
+                  ==========    日夜脑未停留,心力用尽学丘    ==========
+                  </h1>
+                </div>}
               {/* <main style={{fontSize:'5em'}}> */}
                 <Outlet />
                 
